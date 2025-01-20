@@ -8,6 +8,10 @@ locates = []
 
 def teplater(key):
     try:
+        os.mkdir(os.curdir + '/stones')
+    except FileExistsError:
+        pass
+    try:
         if key.char == 'p':
             locates.append(pyautogui.position())
             if len(locates) == 2:
