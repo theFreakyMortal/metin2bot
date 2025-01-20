@@ -24,17 +24,20 @@ def on_press(key):
         print("Exiting program...")
         return False
 
-def main(template_path, x):
-    if not os.path.exists(template_path):
-        print(f"Template image not found at {template_path}.")
-        return
+def alt_tab(i):
+    for _ in range(i):
+        pynput.keyboard.Controller().press(Key.tab)
+        time.sleep(.1)
+        pynput.keyboard.Controller().release(Key.tab)
+        time.sleep(.1)
 
-    template = cv2.imread(template_path, cv2.IMREAD_GRAYSCALE)
-    if template is None:
-        print("Template image not found.")
-        return
+def main(x, y):
+    for tway in os.scandir("stones"):
+        template = cv2.imread("stones\\"+tway.name, cv2.IMREAD_GRAYSCALE)
+        if template is None:
+            print("Template image not found.")
+            return
 
-    while True:
         img = screen_recorder()
         holded = thresholding(img)
         
@@ -47,30 +50,24 @@ def main(template_path, x):
         for pt in zip(*loc[::-1]):
             screen_center = (holded.shape[1] // 2, holded.shape[0] // 2)
             closest_pt = min(zip(*loc[::-1]), key=lambda pt: (pt[0] - screen_center[0]) ** 2 + (pt[1] - screen_center[1]) ** 2)
-        pynput.mouse.Controller().position = (int(closest_pt[0])+template.shape[1]//2, int(closest_pt[1])+30)
-        time.sleep(.1)
-        pynput.mouse.Controller().click(pynput.mouse.Button.left, count=1)
-        time.sleep(.1)
+            pynput.mouse.Controller().position = (int(closest_pt[0])+template.shape[1]//2, int(closest_pt[1])+30)
+            time.sleep(.1)
+            pynput.mouse.Controller().click(pynput.mouse.Button.left, count=1)
+            time.sleep(.1)
         pynput.keyboard.Controller().press(Key.alt)
         time.sleep(.1)
-        pynput.keyboard.Controller().press(Key.tab)
-        time.sleep(.1)
-        pynput.keyboard.Controller().release(Key.tab)
-        time.sleep(.1)
-        pynput.keyboard.Controller().press(Key.tab)
-        time.sleep(.1)
-        pynput.keyboard.Controller().release(Key.tab)
-        time.sleep(.1)
+        alt_tab(y)
         pynput.keyboard.Controller().release(Key.alt)
         time.sleep(x)
+        main(x, y)
         
 
 if __name__ == "__main__":
-    way = os.curdir + '/stones/' + input('Stone: ') + '.png'
     x = input('Time: ')
     answer = input("1. Start the bot\n2. Start the teplater\n3. Exit\n")
+    y = int(input('How many clients: '))
     if answer == '1':
-        main(way, int(x))
+        main(int(x), y-1)
     elif answer == '2':
         import teplater
         teplater.main()
