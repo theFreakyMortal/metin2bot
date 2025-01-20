@@ -72,6 +72,7 @@ if __name__ == "__main__":
     if answer == '1':
         main(way, int(x))
     elif answer == '2':
-        os.system('python3 teplater.py')
+        import teplater
+        teplater.main()
     elif answer == '3':
         exit()
