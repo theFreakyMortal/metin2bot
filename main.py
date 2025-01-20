@@ -68,5 +68,10 @@ def main(template_path, x):
 if __name__ == "__main__":
     way = os.curdir + '/stones/' + input('Stone: ') + '.png'
     x = input('Time: ')
-    time.sleep(10)
-    main(way, x)
+    answer = input("1. Start the bot\n2. Start the teplater\n3. Exit\n")
+    if answer == '1':
+        main(way, int(x))
+    elif answer == '2':
+        os.system('python3 teplater.py')
+    elif answer == '3':
+        exit()
