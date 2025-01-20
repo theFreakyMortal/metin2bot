@@ -24,7 +24,7 @@ def on_press(key):
         print("Exiting program...")
         return False
 
-def main(template_path):
+def main(template_path, x):
     if not os.path.exists(template_path):
         print(f"Template image not found at {template_path}.")
         return
@@ -62,10 +62,11 @@ def main(template_path):
         pynput.keyboard.Controller().release(Key.tab)
         time.sleep(.1)
         pynput.keyboard.Controller().release(Key.alt)
-        time.sleep(1)
+        time.sleep(x)
         
 
 if __name__ == "__main__":
-    template_path = "stones\\" + input('Stone: ') + ".png"
+    way = os.curdir + '/stones/' + input('Stone: ') + '.png'
+    x = input('Time: ')
     time.sleep(10)
-    main(template_path)
+    main(way, x)

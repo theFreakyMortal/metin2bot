@@ -1,4 +1,4 @@
-import cv2 as cv, pyautogui, numpy as np, pynput, time
+import cv2 as cv, pyautogui, numpy as np, pynput, os
 
 keyboard_controller = pynput.keyboard.Controller()
 
@@ -17,7 +17,8 @@ def teplater(key):
                 img = np.array(img)
                 img = cv.cvtColor(img, cv.COLOR_RGB2GRAY)
                 img = cv.threshold(img, 245, 255, cv.THRESH_BINARY)
-                cv.imwrite(f'stones/{stoneName}.png', img[1])
+                way = os.curdir + '/stones/' + stoneName + '.png'
+                cv.imwrite(way, img[1])
                 print('Stone saved')
                 return 
     except AttributeError:
